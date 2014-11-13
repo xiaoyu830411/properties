@@ -2,9 +2,11 @@ properties
 ==========
 这是一个golang的lib，读取 properties 文件
 ```shell
+#it is global elements
 key = value
 ...
 
+#it is section
 [section]
 key = value
 ...
