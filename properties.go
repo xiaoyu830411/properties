@@ -7,11 +7,11 @@ import (
 )
 
 type Properties interface {
-	Get(key string) (string, error)
+	Get(key string) (string, bool)
 	Set(key string, value string) error
 	Remove(key string) (string, error)
 
-	GetSection(id string) (Section, error)
+	GetSection(id string) (Section, bool)
 	SetSection(section Section) error
 	RemoveSection(id string) (Section, error)
 }
@@ -83,13 +83,9 @@ func parse(bytes []byte) (pairs map[string]string, sections map[string](map[stri
 	return
 }
 
-func (this myProperties) Get(key string) (string, error) {
+func (this myProperties) Get(key string) (string, bool) {
 	v, ok := this.pairs[key]
-	if !ok {
-		return "", _NON_EXISTS_
-	}
-
-	return v, nil
+	return v, ok
 }
 
 func (this *myProperties) Set(key string, value string) error {
@@ -114,13 +110,9 @@ func (this *myProperties) Remove(key string) (string, error) {
 	return v, nil
 }
 
-func (this myProperties) GetSection(id string) (Section, error) {
+func (this myProperties) GetSection(id string) (Section, bool) {
 	v, ok := this.sections[id]
-	if !ok {
-		return nil, _NON_EXISTS_
-	}
-
-	return v, nil
+	return v, ok
 }
 
 func (this *myProperties) SetSection(section Section) error {

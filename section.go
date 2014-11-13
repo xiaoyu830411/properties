@@ -2,7 +2,7 @@ package properties
 
 type Section interface {
 	Id() string
-	Get(key string) (string, error)
+	Get(key string) (string, bool)
 	Set(key string, value string) error
 	Remove(key string) (string, error)
 }
@@ -22,13 +22,9 @@ func (this mySection) Id() string {
 	return this.id
 }
 
-func (this mySection) Get(key string) (string, error) {
+func (this mySection) Get(key string) (string, bool) {
 	v, ok := this.pairs[key]
-	if !ok {
-		return "", _NON_EXISTS_
-	}
-
-	return v, nil
+	return v, ok
 }
 
 func (this *mySection) Set(key string, value string) error {
