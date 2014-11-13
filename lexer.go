@@ -145,7 +145,7 @@ func (this *lexer) consume() {
 }
 
 func (this *lexer) ws() {
-	for this.c == ' ' || this.c == '\t' {
+	for this.c == ' ' || this.c == '\t' || this.c == '\r'{
 		this.consume()
 	}
 }
