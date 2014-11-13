@@ -8,14 +8,14 @@ type parser struct {
 	lexer lexer
 	t token
 
-	pairs map[string]string
+	elements map[string]string
 	sections map[string](map[string]string)
 }
 
 func newParser(lexer lexer) parser {
 	parser := parser{
 		lexer: lexer,
-		pairs: make(map[string]string),
+		elements: make(map[string]string),
 		sections: make(map[string](map[string]string)),
 	}
 
@@ -29,7 +29,7 @@ func (this *parser) properties()  {
 		switch this.t.Id {
 			case token_BLANK_LINE: this.consume()
 			case token_SECTION_ID: this.section()
-			case token_KEY : this.element(&this.pairs)
+			case token_KEY : this.element(&this.elements)
 			default:
 				panic(fmt.Sprintf("Invalid Token[%+v]", this.t))
 		}
