@@ -27,7 +27,11 @@ import (
 
 func main() {
   //get a value by key
-  p := properties.Load("file path")
+  p, err := properties.Load("file path")
+  if err != nil {
+     ...
+  }
+  
   value, ok := p.Get("key")
   if ok {
     ...
