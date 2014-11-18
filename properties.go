@@ -7,7 +7,11 @@ import (
 )
 
 type Properties interface {
-	Section
+	Get(key string) (string, bool)
+	Set(key string, value string) error
+	Remove(key string) (string, error)
+
+	Elements() map[string]string
 
 	GetSection(id string) (Section, bool)
 	SetSection(section Section) error
