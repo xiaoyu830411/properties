@@ -5,18 +5,18 @@ type Section interface {
 	Get(key string) (string, bool)
 	Set(key string, value string) error
 	Remove(key string) (string, error)
+
+	Elements() map[string]string
 }
 
-
 type mySection struct {
-	id string
+	id       string
 	elements map[string]string
 }
 
 func newSection(id string) Section {
 	return &mySection{id: id, elements: make(map[string]string)}
 }
-
 
 func (this mySection) Id() string {
 	return this.id
@@ -47,4 +47,8 @@ func (this *mySection) Remove(key string) (string, error) {
 	delete(this.elements, key)
 
 	return v, nil
+}
+
+func (this mySection) Elements() map[string]string {
+	return this.elements
 }

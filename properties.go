@@ -1,19 +1,19 @@
 package properties
 
 import (
-	"io/ioutil"
 	"errors"
 	"fmt"
+	"io/ioutil"
 )
 
 type Properties interface {
-	Get(key string) (string, bool)
-	Set(key string, value string) error
-	Remove(key string) (string, error)
+	Section
 
 	GetSection(id string) (Section, bool)
 	SetSection(section Section) error
 	RemoveSection(id string) (Section, error)
+
+	Sections() map[string]Section
 }
 
 type myProperties struct {
@@ -64,14 +64,16 @@ func parse(bytes []byte) (elements map[string]string, sections map[string](map[s
 
 		if r != nil {
 			switch x := r.(type) {
-				case error : err = x
-				default : err = errors.New(fmt.Sprintf("%v", x))
+			case error:
+				err = x
+			default:
+				err = errors.New(fmt.Sprintf("%v", x))
 			}
 
 			elements = nil
 			sections = nil
 		}
-	} ()
+	}()
 
 	lexer := newLexer(string(bytes))
 	parser := newParser(lexer)
@@ -110,6 +112,10 @@ func (this *myProperties) Remove(key string) (string, error) {
 	return v, nil
 }
 
+func (this myProperties) Elements() map[string]string {
+	return this.elements
+}
+
 func (this myProperties) GetSection(id string) (Section, bool) {
 	v, ok := this.sections[id]
 	return v, ok
@@ -135,4 +141,8 @@ func (this *myProperties) RemoveSection(id string) (Section, error) {
 	delete(this.sections, id)
 
 	return v, nil
+}
+
+func (this myProperties) Sections() map[string]Section {
+	return this.sections
 }
